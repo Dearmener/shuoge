@@ -22,6 +22,7 @@ const initDatabase = async () => {
       name VARCHAR(255) NOT NULL,
       location VARCHAR(255) NOT NULL,
       rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+      average_cost DECIMAL(10,2),
       review TEXT,
       image_url TEXT,
       recommended_by VARCHAR(255),
@@ -33,13 +34,21 @@ const initDatabase = async () => {
     
     await db.query(createTableSQL);
 
-    // 添加 average_cost 列（如果不存在）
-    const alterTableSQL = `
-    ALTER TABLE food_entries
-    ADD COLUMN IF NOT EXISTS average_cost DECIMAL(10,2) AFTER rating;
-    `;
+    // 检查列是否存在
+    const [columns] = await db.query(`
+      SELECT COLUMN_NAME 
+      FROM INFORMATION_SCHEMA.COLUMNS 
+      WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? AND COLUMN_NAME = ?
+    `, [process.env.DB_NAME, 'food_entries', 'average_cost']);
 
-    await db.query(alterTableSQL);
+    // 如果列不存在，添加它
+    if (columns.length === 0) {
+      const alterTableSQL = `
+      ALTER TABLE food_entries
+      ADD COLUMN average_cost DECIMAL(10,2) AFTER rating;
+      `;
+      await db.query(alterTableSQL);
+    }
     
     console.log('Database initialized successfully');
   } catch (error) {
