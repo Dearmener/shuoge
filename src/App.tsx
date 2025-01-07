@@ -40,6 +40,7 @@ function App() {
         name: formData.name,
         location: formData.location,
         rating: formData.rating,
+        average_cost: formData.average_cost || null,
         review: formData.review || null,
         imageUrl: formData.imageUrl || null,
         recommendedBy: formData.recommended_by || null,
