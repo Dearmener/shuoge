@@ -32,6 +32,15 @@ const initDatabase = async () => {
     `;
     
     await db.query(createTableSQL);
+
+    // 添加 average_cost 列（如果不存在）
+    const alterTableSQL = `
+    ALTER TABLE food_entries
+    ADD COLUMN IF NOT EXISTS average_cost DECIMAL(10,2) AFTER rating;
+    `;
+
+    await db.query(alterTableSQL);
+    
     console.log('Database initialized successfully');
   } catch (error) {
     console.error('Error initializing database:', error);

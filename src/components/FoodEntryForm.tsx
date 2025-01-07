@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DayPicker } from 'react-day-picker';
 import { format } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
-import { MapPin, Star, User, Calendar, Image, MessageSquare } from 'lucide-react';
+import { MapPin, Star, User, Calendar, Image, MessageSquare, DollarSign } from 'lucide-react';
 import type { FoodEntryFormData } from '../types';
 import 'react-day-picker/dist/style.css';
 
@@ -15,6 +15,7 @@ export const FoodEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [rating, setRating] = useState(5);
+  const [averageCost, setAverageCost] = useState<string>('');
   const [review, setReview] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [recommendedBy, setRecommendedBy] = useState('');
@@ -30,6 +31,7 @@ export const FoodEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
       name,
       location,
       rating,
+      average_cost: averageCost ? Number(averageCost) : null,
       review: review || null,
       imageUrl: imageUrl || null,
       recommended_by: recommendedBy || null,
@@ -89,7 +91,7 @@ export const FoodEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                 </div>
               </div>
 
-              {/* 评分和日期 */}
+              {/* 评分和人均价格 */}
               <div className="grid grid-cols-2 gap-4">
                 {/* 评分输入 */}
                 <div>
@@ -109,54 +111,56 @@ export const FoodEntryForm: React.FC<Props> = ({ onSubmit, onCancel }) => {
                   </select>
                 </div>
 
-                {/* 日期选择 */}
+                {/* 人均价格输入 */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                    就餐日期
+                    人均价格
                   </label>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => setShowDatePicker(!showDatePicker)}
-                      className="block w-full pl-3 pr-10 py-2 sm:py-3 text-base sm:text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-left"
-                    >
-                      {format(visitDate, 'yyyy-MM-dd')}
-                    </button>
-                    {showDatePicker && (
-                      <div className="absolute z-20 mt-1 bg-white shadow-lg rounded-lg p-2 border border-gray-200">
-                        <DayPicker
-                          mode="single"
-                          selected={visitDate}
-                          onSelect={(date) => {
-                            setVisitDate(date || new Date());
-                            setShowDatePicker(false);
-                          }}
-                          locale={zhCN}
-                        />
-                      </div>
-                    )}
+                  <div className="relative rounded-md shadow-sm">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <DollarSign className="h-5 w-5 text-orange-500" />
+                    </div>
+                    <input
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={averageCost}
+                      onChange={(e) => setAverageCost(e.target.value)}
+                      className="block w-full pl-10 pr-3 py-2 sm:py-3 text-base sm:text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                      placeholder="¥"
+                    />
                   </div>
                 </div>
               </div>
 
-              {/* 图片URL输入 */}
-              {/* <div className="col-span-1">
+              {/* 日期选择 */}
+              <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
-                  美食图片
+                  就餐日期
                 </label>
-                <div className="relative rounded-md shadow-sm">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Image className="h-5 w-5 text-orange-500" />
-                  </div>
-                  <input
-                    type="text"
-                    value={imageUrl}
-                    onChange={(e) => setImageUrl(e.target.value)}
-                    className="block w-full pl-10 pr-3 py-2 sm:py-3 text-base sm:text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    placeholder="输入图片URL（可选）"
-                  />
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setShowDatePicker(!showDatePicker)}
+                    className="block w-full pl-3 pr-10 py-2 sm:py-3 text-base sm:text-sm border border-gray-300 rounded-md focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-left"
+                  >
+                    {format(visitDate, 'yyyy-MM-dd')}
+                  </button>
+                  {showDatePicker && (
+                    <div className="absolute z-20 mt-1 bg-white shadow-lg rounded-lg p-2 border border-gray-200">
+                      <DayPicker
+                        mode="single"
+                        selected={visitDate}
+                        onSelect={(date) => {
+                          setVisitDate(date || new Date());
+                          setShowDatePicker(false);
+                        }}
+                        locale={zhCN}
+                      />
+                    </div>
+                  )}
                 </div>
-              </div> */}
+              </div>
 
               {/* 推荐人输入 */}
               <div className="col-span-1">

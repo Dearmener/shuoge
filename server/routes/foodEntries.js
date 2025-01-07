@@ -18,13 +18,13 @@ router.get('/', async (req, res) => {
 // 创建新的美食记录
 router.post('/', async (req, res) => {
   try {
-    const { id, name, location, rating, review, imageUrl, recommendedBy, visitDate } = req.body;
+    const { id, name, location, rating, average_cost, review, imageUrl, recommendedBy, visitDate } = req.body;
     console.log('Received data:', req.body);
 
     const [result] = await db.query(
-      `INSERT INTO food_entries (id, name, location, rating, review, image_url, recommended_by, visit_date)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [id, name, location, rating, review, imageUrl, recommendedBy, new Date(visitDate)]
+      `INSERT INTO food_entries (id, name, location, rating, average_cost, review, image_url, recommended_by, visit_date)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [id, name, location, rating, average_cost, review, imageUrl, recommendedBy, new Date(visitDate)]
     );
 
     const [newEntry] = await db.query(

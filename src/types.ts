@@ -3,6 +3,7 @@ export interface FoodEntry {
   name: string;
   location: string;
   rating: number;
+  average_cost: number | null;
   review: string | null;
   image_url: string | null;
   recommended_by: string | null;
@@ -15,6 +16,7 @@ export interface FoodEntryFormData {
   name: string;
   location: string;
   rating: number;
+  average_cost: number | null;
   review: string | null;
   imageUrl: string | null;
   recommended_by: string | null;

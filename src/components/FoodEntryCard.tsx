@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Star, User, Calendar, Trash2, Utensils } from 'lucide-react';
+import { MapPin, Star, User, Calendar, Trash2, Utensils, DollarSign } from 'lucide-react';
 import type { FoodEntry } from '../types';
 
 interface Props {
@@ -75,9 +75,17 @@ export const FoodEntryCard: React.FC<Props> = ({ entry, onDelete }) => {
             <span className="text-sm">{formatDate(entry.visit_date)}</span>
           </div>
 
-          <div className="flex items-center text-gray-600">
-            <Star className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" />
-            <span className="text-sm">评分: {entry.rating}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-gray-600">
+              <Star className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" />
+              <span className="text-sm">评分: {entry.rating}</span>
+            </div>
+            {entry.average_cost && (
+              <div className="flex items-center text-gray-600">
+                <DollarSign className="w-4 h-4 mr-1 text-orange-500 flex-shrink-0" />
+                <span className="text-sm">人均: ¥{entry.average_cost}</span>
+              </div>
+            )}
           </div>
 
           {entry.review && (

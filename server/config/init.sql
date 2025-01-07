@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS food_entries (
   name VARCHAR(255) NOT NULL,
   location VARCHAR(255) NOT NULL,
   rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+  average_cost DECIMAL(10,2),
   review TEXT,
   image_url TEXT,
   recommended_by VARCHAR(255),

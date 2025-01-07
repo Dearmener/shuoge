@@ -35,8 +35,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_DATABASE=food_entries
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=123456
     volumes:
       - mysql-data:/var/lib/mysql
     ports:
@@ -45,9 +43,9 @@ services:
       - app-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p123456"]
-      interval: 10s
+      interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 20
 
 volumes:
   mysql-data:
