@@ -79,13 +79,10 @@ export const FoodEntryCard: React.FC<Props> = ({ entry, onDelete }) => {
             <div className="flex items-center text-gray-600">
               <Star className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" />
               <span className="text-sm">评分: {entry.rating}</span>
+              {entry.average_cost && (
+                <span className="text-sm ml-2">人均: ¥{entry.average_cost}</span>
+              )}
             </div>
-            {entry.average_cost && (
-              <div className="flex items-center text-gray-600">
-                <DollarSign className="w-4 h-4 mr-1 text-orange-500 flex-shrink-0" />
-                <span className="text-sm">人均: ¥{entry.average_cost}</span>
-              </div>
-            )}
           </div>
 
           {entry.review && (
